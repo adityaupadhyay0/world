@@ -11,15 +11,19 @@ class ForwardSimulator:
         """
         Predicts future states by recursively asking the reasoning agent
         "What happens next?" based on current trajectories.
+        Uses a cloned state to avoid polluting ground truth.
         """
-        trajectory = []
-        # In a real implementation, we might fork the StateManager/WorldState to avoid polluting truth
-        # For MVP, we'll just simulate the data flow
+        # Create a sandboxed state manager
+        cloned_ws = self.agent.state_manager.world_state.clone()
+        sandbox_manager = StateManager(cloned_ws, self.agent.state_manager.event_log)
 
+        # Create a temporary reasoning agent for the sandbox
+        sandbox_agent = ReasoningAgent(sandbox_manager, llm_client=self.agent.llm_client)
+
+        trajectory = []
         current_ids = initial_entity_ids
         for i in range(n_steps):
-            # We simulate a "Time passes" event
-            prediction = self.agent.process_event(f"Simulation step {i+1}: 1 week passes.", current_ids)
+            prediction = sandbox_agent.process_event(f"Simulation step {i+1}: 1 week passes.", current_ids)
             trajectory.append(prediction)
 
         return trajectory

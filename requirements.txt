@@ -4,4 +4,8 @@ chromadb
 sentence-transformers
 numpy
 pytest
+pytest-asyncio
 sqlite3
+aiosqlite
+litellm
+pyyaml

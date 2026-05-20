@@ -1,0 +1,7 @@
+llm:
+  model: "gpt-4o"
+  temperature: 0.2
+state:
+  db_path: "stratum_events.db"
+memory:
+  collection: "stratum_episodic"

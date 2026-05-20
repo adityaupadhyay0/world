@@ -1,9 +1,16 @@
 import networkx as nx
+import copy
 from typing import Dict, List, Optional, Any, Union
 from stratum.ontology.schema import Entity, Relation, Employee, Project, Organization
 import logging
 
 class WorldState:
+    def clone(self) -> 'WorldState':
+        new_ws = WorldState()
+        new_ws.entities = copy.deepcopy(self.entities)
+        new_ws.graph = self.graph.copy()
+        return new_ws
+
     def __init__(self):
         self.entities: Dict[str, Entity] = {}
         self.graph = nx.MultiDiGraph()
