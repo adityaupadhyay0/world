@@ -1,0 +1,7 @@
+pydantic
+networkx
+chromadb
+sentence-transformers
+numpy
+pytest
+sqlite3
